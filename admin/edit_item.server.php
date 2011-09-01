@@ -54,7 +54,7 @@ function previewitem($id)
     return $objResponse;
 }
 
-function edititem($id, $title, $description, $text, $conclusion, $rating, $active, $objecttype, $games, $companies)
+function edititem($id, $title, $description, $text, $conclusion, $rating, $active, $objecttype, $spotlighttype, $games, $companies)
 {
     global $content;
     switch((int) $objecttype) {
@@ -76,7 +76,8 @@ function edititem($id, $title, $description, $text, $conclusion, $rating, $activ
         'rating' => (int) $rating,
         'active' => (int) $active,
         'objecttype' => (int) $objecttype,
-        'object' => (int) $object
+        'object' => (int) $object,
+        'spotlight' => (int) $spotlighttype
     );
     $result = $content->EditContentItem($id, $data);
 

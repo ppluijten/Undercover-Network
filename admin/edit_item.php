@@ -10,6 +10,7 @@ if($contentItem) {
     // Content item was found
     $objectid = (int) $contentItem['object'];
     $objecttype = (int) $contentItem['objecttype'];
+    $spotlighttype = (int) $contentItem['spotlight'];
 
     $template->SetVariable("xajaxJavascript", $xajax->printJavascript());
     $template->SetVariable("body_onload", "xajax_previewitem($id); set_type($objecttype);");
@@ -22,6 +23,10 @@ if($contentItem) {
     $template->SetVariable("checked_0", $objecttype == 0 ? 'checked ' : '');
     $template->SetVariable("checked_1", $objecttype == 1 ? 'checked ' : '');
     $template->SetVariable("checked_2", $objecttype == 2 ? 'checked ' : '');
+    $template->SetVariable("spotlighttype", $spotlighttype);
+    $template->SetVariable("checked_sl_0", $spotlighttype == 0 ? 'checked ' : '');
+    $template->SetVariable("checked_sl_1", $spotlighttype == 1 ? 'checked ' : '');
+    $template->SetVariable("checked_sl_2", $spotlighttype == 2 ? 'checked ' : '');
 
     $games_html = "";
     $games = $content->GetGames();

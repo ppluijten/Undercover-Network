@@ -224,6 +224,7 @@ class Content {
             'rating'        => (int) $content['c_review_rating'],
             'object'        => (int) $content['c_obj_id'],
             'objecttype'    => (int) $content['c_obj_type'],
+            'spotlight'     => (int) $content['c_spotlight'],
             'text'          => (string) $contentText,
             'text_orig'     => (string) stripslashes(trim($content['c_text']))
         );
@@ -243,6 +244,7 @@ class Content {
         $objecttype = (int) $data['objecttype'];
         $object = (int) $data['object'];
         $text = (string) $data['text'];
+        $spotlight = (int) $data['spotlight'];
 
         // Get the content data
         $editContentItem = "
@@ -254,7 +256,8 @@ class Content {
                     c_review_rating = '" . (string) $db->EscapeString($rating) . "',
                     c_active = '" . (string) $db->EscapeString($active) . "',
                     c_obj_type = '" . (string) $db->EscapeString($objecttype) . "',
-                    c_obj_id = '" . (string) $db->EscapeString($object) . "'
+                    c_obj_id = '" . (string) $db->EscapeString($object) . "',
+                    c_spotlight = '" . (string) $db->EscapeString($spotlight) . "'
             WHERE   c_id = '" . (int) $db->EscapeString($id) . "'
             LIMIT   1";
         $sqlContentItem = $db->GetQuery($editContentItem);

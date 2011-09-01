@@ -54,7 +54,7 @@ require("add_item.common.php");
     return $objResponse;
 }*/
 
-function createitem($type, $title, $description, $text, $conclusion, $rating, $active, $objecttype, $games, $companies)
+function createitem($type, $title, $description, $text, $conclusion, $rating, $active, $objecttype, $spotlighttype, $games, $companies)
 {
     global $content;
     switch((int) $objecttype) {
@@ -76,11 +76,12 @@ function createitem($type, $title, $description, $text, $conclusion, $rating, $a
         'rating' => (int) $rating,
         'active' => (int) $active,
         'objecttype' => (int) $objecttype,
-        'object' => (int) $object
+        'object' => (int) $object,
+        'spotlight' => (int) $spotlighttype
     );
-    $id = $content->CreateContentItem($type);
-    $result = $content->EditContentItem($id, $data);
-
+    $create = $content->CreateContentItem($type);
+    if($create) { $id = (int) $create; $result = $content->EditContentItem($id, $data); } else { $id = 0; $result = FALSE; }
+    
     $objResponse = new xajaxResponse();
     if($result === TRUE) {
         $objResponse->assign("resultdiv", "innerHTML", "The item '$title' has been succesfuly created.");

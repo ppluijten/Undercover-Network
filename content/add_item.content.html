@@ -17,6 +17,8 @@
 
             <tr><td><b>Active</b>:</td><td><input type="checkbox" name="active" id="active" value="1" checked="{active}" /></td></tr>
 
+            <tr><td><b>Spotlight</b>:</td><td><input type="hidden" name="spotlighttypeid" id="spotlighttypeid" value="0" /><input type="radio" name="spotlighttype" value="0" onclick="set_sl_type(0);" checked="true" /> Normaal <input type="radio" name="spotlighttype" value="1" onclick="set_sl_type(1);" /> Spotlight <input type="radio" name="spotlighttype" value="2" onclick="set_sl_type(2);" /> Covered</td></tr>
+
             <tr><td><b>Object</b>:</td><td><input type="hidden" name="objecttypeid" id="objecttypeid" value="0" /><input type="radio" name="objecttype" value="0" onclick="set_type(0);" checked="true" /> Geen <input type="radio" name="objecttype" value="1" onclick="set_type(1);" /> Game <input type="radio" name="objecttype" value="2" onclick="set_type(2);" /> Company</td></tr>
 
             <tr id="object_games"><td><b>Game</b>:</td><td><select id="games" name="games">
@@ -27,7 +29,7 @@
             {companies}
             </select></td></tr>
 
-            <tr><td colspan="2"><input style="float: left;" type="button" value="Update" onclick="set_result_loading(); xajax_createitem(document.getElementById('type').value, document.getElementById('title').value, document.getElementById('description').value, document.getElementById('text').value, document.getElementById('conclusion').value, document.getElementById('rating').value, document.getElementById('active').value, document.getElementById('objecttypeid').value, document.getElementById('games').value, document.getElementById('companies').value); return false;" /><div id="resultdiv" style="float: left; margin-left: 10px; margin-top: 2px;"></div></td></tr>
+            <tr><td colspan="2"><input style="float: left;" type="button" value="Create" onclick="set_result_loading(); xajax_createitem(document.getElementById('type').value, document.getElementById('title').value, document.getElementById('description').value, document.getElementById('text').value, document.getElementById('conclusion').value, document.getElementById('rating').value, document.getElementById('active').value, document.getElementById('objecttypeid').value, document.getElementById('spotlighttypeid').value, document.getElementById('games').value, document.getElementById('companies').value); return false;" /><div id="resultdiv" style="float: left; margin-left: 10px; margin-top: 2px;"></div></td></tr>
         </table>
     </form>
 </div>

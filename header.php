@@ -33,7 +33,9 @@ $user = new User();
 
 // Block admin to anyone other than the allowed users
 if((!in_array((int) $user->userdata['userid'], array(576, 589))) && (strpos($_SERVER['PHP_SELF'], "admin") !== FALSE)) {
-    exit("You do not have access to this page.");
+    if($_SERVER['SERVER_NAME'] != 'localhost') { //DEBUG
+        exit("You do not have access to this page.");
+    } //DEBUG
 }
 
 // Templates

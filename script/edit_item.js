@@ -22,3 +22,8 @@ function set_type(id)
 
     document.getElementById('objecttypeid').value = id;
 }
+
+function set_sl_type(id)
+{
+    document.getElementById('spotlighttypeid').value = id;
+}

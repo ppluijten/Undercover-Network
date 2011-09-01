@@ -5,7 +5,7 @@ require "add_item.common.php";
 $template = new Template("add_item", "Undercover-Gaming :: Add Item", "../");
 
 $template->SetVariable("xajaxJavascript", $xajax->printJavascript());
-$template->SetVariable("body_onload", "xajax_previewitem($id); set_type(0);");
+$template->SetVariable("body_onload", "set_type(0);");
 
 $games_html = "";
 $games = $content->GetGames();
