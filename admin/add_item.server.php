@@ -54,7 +54,8 @@ require("add_item.common.php");
     return $objResponse;
 }*/
 
-function createitem($type, $title, $description, $text, $conclusion, $rating, $active, $objecttype, $spotlighttype, $games, $companies)
+//TODO: Remove optional
+function createitem($type, $title, $description, $text, $conclusion, $rating, $active, $objecttype, $spotlighttype, $games, $companies, $subtype = 0, $platforms = "", $date_online = "2011-11-27 17:28:00", $event = 0)
 {
     global $content;
     switch((int) $objecttype) {
@@ -77,7 +78,12 @@ function createitem($type, $title, $description, $text, $conclusion, $rating, $a
         'active' => (int) $active,
         'objecttype' => (int) $objecttype,
         'object' => (int) $object,
-        'spotlight' => (int) $spotlighttype
+        'spotlight' => (int) $spotlighttype,
+        'subtype' => (int) $subtype,
+        'platforms' => (string) $platforms,
+        'dateonline' => (string) $date_online,
+        'event' => (int) $event,
+        'editorid' => 0
     );
     $create = $content->CreateContentItem($type);
     if($create) { $id = (int) $create; $result = $content->EditContentItem($id, $data); } else { $id = 0; $result = FALSE; }

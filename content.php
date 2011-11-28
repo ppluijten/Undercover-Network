@@ -66,6 +66,8 @@ switch($contentItem['type']) {
         // Article
         $content_html .= "<h4><b>" . $contentItem['description'] . "</b></h4>";
         $content_html .= $contentItem['text'];
+
+        $type_image = '<img src="layout/layout_left/article_title.png" alt="" class="title" style="margin-left: 55px;">';
         break;
     case 3:
         // Preview
@@ -87,7 +89,7 @@ switch($contentItem['type']) {
         $template->SetVariable("item_conclusion", $conclusion);
         
         $type_image = '<img src="layout/layout_left/recensie_title.png" alt="" class="title" style="margin-left: 55px;">';
-        //TODO: Afmaken
+        //TODO: Afmaken, vooral score er nog in
         break;
 }
 

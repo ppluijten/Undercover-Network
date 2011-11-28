@@ -2,9 +2,9 @@
 <div id="editdiv" style="width: 936px; padding: 10px; background: url('{folder}images/item_background.png'); border: 2px solid #333; float: left; margin-bottom: 10px;">
     <form action="" method="post">
         <table>
-            <tr><td style="width: 85px;"><b>Type</b>:</td><td><select id="type" name="type">
+            <tr><td style="width: 85px;"><b>Type</b>:</td><td><select id="type" name="type" onchange="set_content_type(this.value);">
                         <option value="1">Nieuws</option>
-                        <!-- <option value="2">Artikel</option> -->
+                        <option value="2">Artikel</option>
                         <option value="3">Preview</option>
                         <option value="4">Review</option>
             </select></td></tr>
@@ -12,8 +12,8 @@
             <tr><td><b>Description</b>:</td><td><input type="text" name="description" id="description" size="30" /></td></tr>
             <tr><td colspan="2"><textarea rows="40" cols="60" name="text" id="text">{text_orig}</textarea></td></tr>
 
-            <tr {hide_review}><td><b>Conclusion</b>:</td><td><input type="text" name="conclusion" id="conclusion" size="30" /></td></tr>
-            <tr {hide_review}><td><b>Rating</b>:</td><td><input type="text" name="rating" id="rating" size="3" /></td></tr>
+            <tr id="tr_conclusion" style="display: none;"><td><b>Conclusion</b>:</td><td><input type="text" name="conclusion" id="conclusion" size="30" /></td></tr>
+            <tr id="tr_rating" style="display: none;"><td><b>Rating</b>:</td><td><input type="text" name="rating" id="rating" size="3" /></td></tr>
 
             <tr><td><b>Active</b>:</td><td><input type="checkbox" name="active" id="active" value="1" checked="{active}" /></td></tr>
 
@@ -28,6 +28,8 @@
             <tr id="object_companies"><td><b>Company</b>:</td><td><select id="companies" name="companies">
             {companies}
             </select></td></tr>
+
+            <tr id="object_image"><td><b>Image</b>:</td><td>Image Selection</td></tr>
 
             <tr><td colspan="2"><input style="float: left;" type="button" value="Create" onclick="set_result_loading(); xajax_createitem(document.getElementById('type').value, document.getElementById('title').value, document.getElementById('description').value, document.getElementById('text').value, document.getElementById('conclusion').value, document.getElementById('rating').value, document.getElementById('active').value, document.getElementById('objecttypeid').value, document.getElementById('spotlighttypeid').value, document.getElementById('games').value, document.getElementById('companies').value); return false;" /><div id="resultdiv" style="float: left; margin-left: 10px; margin-top: 2px;"></div></td></tr>
         </table>

@@ -54,7 +54,8 @@ function previewitem($id)
     return $objResponse;
 }
 
-function edititem($id, $title, $description, $text, $conclusion, $rating, $active, $objecttype, $spotlighttype, $games, $companies)
+//TODO: Remove optional
+function edititem($id, $title, $description, $text, $conclusion, $rating, $active, $objecttype, $spotlighttype, $games, $companies, $subtype = 0, $platforms = "", $date_online = "2011-11-27 17:28:00", $event = 0, $editor = 0)
 {
     global $content;
     switch((int) $objecttype) {
@@ -77,7 +78,12 @@ function edititem($id, $title, $description, $text, $conclusion, $rating, $activ
         'active' => (int) $active,
         'objecttype' => (int) $objecttype,
         'object' => (int) $object,
-        'spotlight' => (int) $spotlighttype
+        'spotlight' => (int) $spotlighttype,
+        'subtype' => (int) $subtype,
+        'platforms' => (string) $platforms,
+        'dateonline' => (string) $date_online,
+        'event' => (int) $event,
+        'editorid' => (int) $editor
     );
     $result = $content->EditContentItem($id, $data);
 

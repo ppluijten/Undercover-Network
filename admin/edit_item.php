@@ -52,14 +52,15 @@ if($contentItem) {
         $template->SetVariable("hide_review", "style='display:none;'");
     }
 
-    /*TODO: c_sub_type
-    c_platforms
-    c_date
-    c_spotlight = 0,1,2
-    c_date_online
-    c_image
-    c_event
-    c_editor_id*/
+    //TODO: Image upload + c_image
+
+    /* TODO: Overige velden
+     * c_sub_type
+     * c_platforms
+     * c_event
+     * c_date_online
+     * c_editor_id
+     */
 } else {
     // Could not find the item
     $template->SetVariable("item_title", 'Item not found');

@@ -5,7 +5,7 @@ require "add_item.common.php";
 $template = new Template("add_item", "Undercover-Gaming :: Add Item", "../");
 
 $template->SetVariable("xajaxJavascript", $xajax->printJavascript());
-$template->SetVariable("body_onload", "set_type(0);");
+$template->SetVariable("body_onload", "set_type(0); set_sl_type(0);");
 
 $games_html = "";
 $games = $content->GetGames();
@@ -23,14 +23,14 @@ foreach($companies as $companyid => $companyname) {
 
 $template->SetVariable("companies", $companies_html);
 
-/*TODO: c_sub_type
-c_platforms
-c_date
-c_spotlight = 0,1,2
-c_date_online
-c_image
-c_event
-c_editor_id*/
+//TODO: Image upload + c_image
+
+/* TODO: Overige velden
+ * c_sub_type
+ * c_platforms
+ * c_date_online
+ * c_event
+ */
 
 $template->Output();
 

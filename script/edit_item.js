@@ -25,5 +25,28 @@ function set_type(id)
 
 function set_sl_type(id)
 {
+    switch(id) {
+        case 0:
+            document.getElementById('object_image').style.display = 'none';
+            break;
+        case 1:
+            document.getElementById('object_image').style.display = '';
+            break;
+        case 2:
+            document.getElementById('object_image').style.display = '';
+            break;
+    }
+
     document.getElementById('spotlighttypeid').value = id;
+}
+
+function set_content_type(id)
+{
+    if(id == 4) {
+        document.getElementById('tr_conclusion').style.display = '';
+        document.getElementById('tr_rating').style.display = '';
+    } else {
+        document.getElementById('tr_conclusion').style.display = 'none';
+        document.getElementById('tr_rating').style.display = 'none';
+    }
 }

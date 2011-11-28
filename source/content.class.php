@@ -47,7 +47,6 @@ class Content {
         $itemOffset = (int) (($pageNumber - 1) * $pageLimit);
         $limit = ((int) $pageLimit != 0) ? (((int) $pageNumber > 0) ? "LIMIT " . (int) $itemOffset . ", " . (int) $pageLimit : "LIMIT " . (int) $pageLimit) : '';
 
-        //TODO: Andere types toevoegen
         $order = "";
         switch($type) {
             case 1:
@@ -74,7 +73,15 @@ class Content {
                     $order = "ORDER BY " . (string) $settings->GetSetting("content_reviews_sort");
                 }
                 break;
+            default:
+                // Other or none
+                if($settings->SettingExists("content_other_sort")) {
+                    $order = "ORDER BY " . (string) $settings->GetSetting("content_other_sort");
+                }
+                break;
         }
+
+        //TODO: Sub-types: column 6, rubric 7, screen 8, trailer 8
         
         if((int) $type > 0) {
             $and_type = "AND     c_type = '" . (int) $db->EscapeString($type) . "'";
@@ -245,6 +252,11 @@ class Content {
         $object = (int) $data['object'];
         $text = (string) $data['text'];
         $spotlight = (int) $data['spotlight'];
+        $subtype = (int) $data['subtype'];
+        $platforms = (string) $data['platforms'];
+        $date_online = (string) $data['dateonline'];
+        $event = (int) $data['event'];
+        $editor_id = (int) $data['editorid'];
 
         // Get the content data
         $editContentItem = "
@@ -257,7 +269,12 @@ class Content {
                     c_active = '" . (string) $db->EscapeString($active) . "',
                     c_obj_type = '" . (string) $db->EscapeString($objecttype) . "',
                     c_obj_id = '" . (string) $db->EscapeString($object) . "',
-                    c_spotlight = '" . (string) $db->EscapeString($spotlight) . "'
+                    c_spotlight = '" . (string) $db->EscapeString($spotlight) . "',
+                    c_sub_type = '" . (string) $db->EscapeString($subtype) . "',
+                    c_platforms = '" . (string) $db->EscapeString($platforms) . "',
+                    c_date_online = '" . (string) $db->EscapeString($date_online) . "',
+                    c_event = '" . (string) $db->EscapeString($event) . "',
+                    c_editor_id = '" . (string) $db->EscapeString($editor_id) . "'
             WHERE   c_id = '" . (int) $db->EscapeString($id) . "'
             LIMIT   1";
         $sqlContentItem = $db->GetQuery($editContentItem);
