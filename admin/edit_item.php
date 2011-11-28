@@ -13,7 +13,7 @@ if($contentItem) {
     $spotlighttype = (int) $contentItem['spotlight'];
 
     $template->SetVariable("xajaxJavascript", $xajax->printJavascript());
-    $template->SetVariable("body_onload", "xajax_previewitem($id); set_type($objecttype);");
+    $template->SetVariable("body_onload", "xajax_previewitem($id); set_type($objecttype); set_sl_type($spotlighttype);");
     $template->SetVariable("id", $id);
     $template->SetVariable("item_title", $contentItem['title']);
     $template->SetVariable("item_description", $contentItem['description']);
