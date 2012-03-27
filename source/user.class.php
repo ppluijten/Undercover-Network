@@ -20,14 +20,13 @@ class User {
 
     private function CheckLogin() {
         global $db;
-        global $settings;
 
         //TODO: Deze regel weghalen als helemaal is overgegaan op het nieuwe forum
         $sessionhash = (isset($_COOKIE['bbsessionhash'])) ? (string) $_COOKIE['bbsessionhash'] : (string) $_COOKIE['bb_sessionhash'];
 
         $getSessionData = "
             SELECT userid, loggedin
-            FROM " . $settings->GetSetting('vbulletin_db_prefix') . "session
+            FROM " . Settings::GetSetting('vbulletin_db_prefix') . "session
             WHERE sessionhash = '" . $db->EscapeString($sessionhash) . "'
             LIMIT 1";
         $sqlSessionData = $db->GetQuery($getSessionData);
@@ -51,12 +50,11 @@ class User {
 
     private function CheckUserData() {
         global $db;
-        global $settings;
 
         if($this->loggedin) {
             $getUserData = "
                 SELECT userid, usergroupid, username, email, usertitle
-                FROM " . $settings->GetSetting('vbulletin_db_prefix') . "user
+                FROM " . Settings::GetSetting('vbulletin_db_prefix') . "user
                 WHERE userid = '" . $db->EscapeString($this->userid) . "'
                 LIMIT 1";
             $sqlUserData = $db->GetQuery($getUserData);
@@ -71,12 +69,11 @@ class User {
 
     private function CheckUserGroup() {
         global $db;
-        global $settings;
 
         if($this->loggedin && (int) $this->userdata['usergroup'] > 0) {
             $getUserGroup = "
                 SELECT usergroupid, usertitle
-                FROM " . $settings->GetSetting('vbulletin_db_prefix') . "usergroup
+                FROM " . Settings::GetSetting('vbulletin_db_prefix') . "usergroup
                 WHERE usergroupid = '" . $db->EscapeString($this->userdata['usergroup']) . "'
                 LIMIT 1";
             $sqlUserGroup = $db->GetQuery($getUserGroup);

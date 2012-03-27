@@ -2,31 +2,28 @@
 
 class Settings {
 
-    var $settings = array();
+    private static $settings = array();
 
-    function GetSetting($name) {
-        return (string) $this->settings[$name];
+    public static function GetSetting($name) {
+        return (string) self::$settings[$name];
     }
 
-    function SettingExists($name) {
-        if (isset($this->settings[$name])) {
+    public static function SettingExists($name) {
+        if (isset(self::$settings[$name])) {
             return true;
         } else {
             return false;
         }
     }
 
-    function SetSetting($name, $value) {
-        $this->settings[(string) $name] = (string) $value;
+    public static function SetSetting($name, $value) {
+        self::$settings[(string) $name] = (string) $value;
     }
 
-    /*function LoadSettings() {
-        $settings = array();
-        $this->settings = $settings;
-    }*/
-
-    function __construct() {
-        //$this->LoadSettings();
+    public static function SetSettings($array) {
+        foreach($array as $key => $value) {
+            self::SetSetting("$key", "$value");
+        }
     }
 
 }

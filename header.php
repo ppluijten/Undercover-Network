@@ -22,7 +22,6 @@ $content = new Content();
 
 // Settings
 require "source/settings.class.php";
-$settings = new Settings();
 
 // Settings configuration data
 require "config_settings.php";

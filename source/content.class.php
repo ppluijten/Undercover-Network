@@ -41,7 +41,6 @@ class Content {
         //TODO: Deze functie afmaken
         
         global $db;
-        global $settings;
 
         $itemArray = array();
         $itemOffset = (int) (($pageNumber - 1) * $pageLimit);
@@ -51,32 +50,32 @@ class Content {
         switch($type) {
             case 1:
                 // News
-                if($settings->SettingExists("content_news_sort")) {
-                    $order = "ORDER BY " . (string) $settings->GetSetting("content_news_sort");
+                if(Settings::SettingExists("content_news_sort")) {
+                    $order = "ORDER BY " . (string) Settings::GetSetting("content_news_sort");
                 }
                 break;
             case 2:
                 // Article
-                if($settings->SettingExists("content_articles_sort")) {
-                    $order = "ORDER BY " . (string) $settings->GetSetting("content_articles_sort");
+                if(Settings::SettingExists("content_articles_sort")) {
+                    $order = "ORDER BY " . (string) Settings::GetSetting("content_articles_sort");
                 }
                 break;
             case 3:
                 // Preview
-                if($settings->SettingExists("content_previews_sort")) {
-                    $order = "ORDER BY " . (string) $settings->GetSetting("content_previews_sort");
+                if(Settings::SettingExists("content_previews_sort")) {
+                    $order = "ORDER BY " . (string) Settings::GetSetting("content_previews_sort");
                 }
                 break;
             case 4:
                 // Review
-                if($settings->SettingExists("content_reviews_sort")) {
-                    $order = "ORDER BY " . (string) $settings->GetSetting("content_reviews_sort");
+                if(Settings::SettingExists("content_reviews_sort")) {
+                    $order = "ORDER BY " . (string) Settings::GetSetting("content_reviews_sort");
                 }
                 break;
             default:
                 // Other or none
-                if($settings->SettingExists("content_other_sort")) {
-                    $order = "ORDER BY " . (string) $settings->GetSetting("content_other_sort");
+                if(Settings::SettingExists("content_other_sort")) {
+                    $order = "ORDER BY " . (string) Settings::GetSetting("content_other_sort");
                 }
                 break;
         }
