@@ -29,6 +29,7 @@ require "config_settings.php";
 
 // User modification and usage class
 require "source/user.class.php";
+User::checkUser();
 //$user = new User();
 
 // Block admin to anyone other than the allowed users
