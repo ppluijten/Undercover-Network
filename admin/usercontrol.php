@@ -6,10 +6,10 @@ require("usercontrol.common.php");
 // User data
 $usertemplate = new Template("usercontrol", "", "../", true);
 $logintemplate = new Template("login", "", "../", true);
-if($user->userdata['loggedin']) {
+if(User::isLoggedIn()) {
     $userdatatemplate = new Template("userdata_loggedin", "", "../", true);
-    $userdatatemplate->setVariable("userid", (int) $user->userdata['userid']);
-    $userdatatemplate->setVariable("username", (string) $user->userdata['username']);
+    $userdatatemplate->setVariable("userid", (int) User::getUserId());
+    $userdatatemplate->setVariable("username", (string) User::getUserData('username'));
     $usertemplate->setVariable("userdata", $userdatatemplate->ReturnOutput());
 } else {
     $usertemplate->setVariable("userdata", "<img style='width: 65px; height: 65px;' src='images/avatar.jpg' class='avatar'>");

@@ -3,16 +3,14 @@
 class Content {
 
     function GetPageCount($type, $pageLimit, $spotlight = -1) {
-        global $db;
-
         if((int) $type > 0) {
-            $and_type = "AND     c_type = '" . (int) $db->EscapeString($type) . "'";
+            $and_type = "AND     c_type = '" . (int) DB::EscapeString($type) . "'";
         } else {
             $and_type = "";
         }
 
         if((int) $spotlight > -1) {
-            $and_spotlight = "AND     c_spotlight = '" . (int) $db->EscapeString($spotlight) . "'";
+            $and_spotlight = "AND     c_spotlight = '" . (int) DB::EscapeString($spotlight) . "'";
         } else {
             $and_spotlight = "";
         }
@@ -24,9 +22,9 @@ class Content {
             " . $and_type . "
             " . $and_spotlight . "
             AND     DATE_FORMAT(c_date_online, '%d-%m-%Y %H:%i') <= '" . date('d-m-Y H:i') . "'";
-        $sqlitem = $db->GetQuery($getitem);
+        $sqlitem = DB::GetQuery($getitem);
 
-        $item = $db->GetArray($sqlitem);
+        $item = DB::GetArray($sqlitem);
         $amount = (int) $item['amount'];
         $amount = (int) ceil((int) $amount / (int) $pageLimit);
 
@@ -39,8 +37,6 @@ class Content {
 
     function GetContentItems($type = 0, $pageNumber = 0, $pageLimit = 0, $detailed = FALSE, $spotlight = -1) {
         //TODO: Deze functie afmaken
-        
-        global $db;
 
         $itemArray = array();
         $itemOffset = (int) (($pageNumber - 1) * $pageLimit);
@@ -81,15 +77,15 @@ class Content {
         }
 
         //TODO: Sub-types: column 6, rubric 7, screen 8, trailer 8
-        
+
         if((int) $type > 0) {
-            $and_type = "AND     c_type = '" . (int) $db->EscapeString($type) . "'";
+            $and_type = "AND     c_type = '" . (int) DB::EscapeString($type) . "'";
         } else {
             $and_type = "";
         }
 
         if((int) $spotlight > -1) {
-            $and_spotlight = "AND     c_spotlight = '" . (int) $db->EscapeString($spotlight) . "'";
+            $and_spotlight = "AND     c_spotlight = '" . (int) DB::EscapeString($spotlight) . "'";
         } else {
             $and_spotlight = "";
         }
@@ -101,9 +97,9 @@ class Content {
             " . $and_type . "
             " . $and_spotlight . "
             AND     DATE_FORMAT(c_date_online, '%d-%m-%Y %H:%i') <= '" . date('d-m-Y H:i') . "'
-            " . $db->EscapeString($order) . "
-            " . $db->EscapeString($limit);
-        $sqlitem = $db->GetQuery($getitem);
+            " . DB::EscapeString($order) . "
+            " . DB::EscapeString($limit);
+        $sqlitem = DB::GetQuery($getitem);
 
         /*$getitem = 	"
             SELECT 	*
@@ -115,14 +111,14 @@ class Content {
             ".$config->item['orderByType']."
             ".$limit;*/
 
-        while($item = $db->GetArray($sqlitem)) {
+        while($item = DB::GetArray($sqlitem)) {
 
                 $getComments = "
                     SELECT 	*
                     FROM 	ug_comments
                     WHERE 	comments_cid = '" . (int) $item['c_id'] . "'";
-                $sqlComments = $db->GetQuery($getComments);
-                $itemComments = $db->GetNumRows($sqlComments);
+                $sqlComments = DB::GetQuery($getComments);
+                $itemComments = DB::GetNumRows($sqlComments);
 
                 /*$itemDateTime = explode(' ', $item['c_date']);
                 $itemDateTime2 = explode('-', $itemDateTime[0]);
@@ -148,9 +144,9 @@ class Content {
                             FROM	ug_crew
                             WHERE	crew_id = '" . (int) $item['c_author_id'] . "'
                             LIMIT	1";
-                        $sqlAuthor = $db->GetQuery($getAuthor);
+                        $sqlAuthor = DB::GetQuery($getAuthor);
 
-                        $author = $db->GetArray($sqlAuthor);
+                        $author = DB::GetArray($sqlAuthor);
                         $itemAuthor = $author['crew_name'];
 
                         $itemText = $this->ConvertBB($item['c_text']);
@@ -174,18 +170,16 @@ class Content {
     }
 
     function GetContentItem($id) {
-        global $db;
-        
         if((int) $id <= 0) { return false; }
 
         // Get the content data
         $getContentItem = "
             SELECT  *
             FROM    ug_content
-            WHERE   c_id = '" . (int) $db->EscapeString($id) . "'
+            WHERE   c_id = '" . (int) DB::EscapeString($id) . "'
             LIMIT   1";
-        $sqlContentItem = $db->GetQuery($getContentItem);
-        $content = $db->GetArray($sqlContentItem);
+        $sqlContentItem = DB::GetQuery($getContentItem);
+        $content = DB::GetArray($sqlContentItem);
 
         if(!$content) { return false; }
 
@@ -195,17 +189,17 @@ class Content {
             FROM	ug_crew
             WHERE	crew_id = '" . (int) $content['c_author_id'] . "'
             LIMIT	1";
-        $sqlAuthor = $db->GetQuery($getAuthor);
-        $author = $db->GetArray($sqlAuthor);
+        $sqlAuthor = DB::GetQuery($getAuthor);
+        $author = DB::GetArray($sqlAuthor);
         $contentAuthor = $author['crew_name'];
-        
+
         // Get the comments
         $getComments = "
             SELECT 	comments_id
             FROM 	ug_comments
             WHERE 	comments_cid = '" . (int) $news['c_id'] . "'";
-        $sqlComments = $db->GetQuery($getComments);
-        $contentComments = $db->GetNumRows($sqlComments);
+        $sqlComments = DB::GetQuery($getComments);
+        $contentComments = DB::GetNumRows($sqlComments);
 
         // Get the remaining data
         $contentDate = strtotime($content['c_date']);
@@ -234,13 +228,11 @@ class Content {
             'text'          => (string) $contentText,
             'text_orig'     => (string) stripslashes(trim($content['c_text']))
         );
-        
+
         return $newsEntry;
     }
 
     function EditContentItem($id, $data) {
-        global $db;
-
         $id = (int) $id;
         $title = (string) $data['title'];
         $description = (string) $data['description'];
@@ -260,54 +252,50 @@ class Content {
         // Get the content data
         $editContentItem = "
             UPDATE  ug_content
-            SET     c_title = '" . (string) $db->EscapeString($title) . "',
-                    c_text = '" . (string) $db->EscapeString($text) . "',
-                    c_description = '" . (string) $db->EscapeString($description) . "',
-                    c_review_conclusion = '" . (string) $db->EscapeString($conclusion) . "',
-                    c_review_rating = '" . (string) $db->EscapeString($rating) . "',
-                    c_active = '" . (string) $db->EscapeString($active) . "',
-                    c_obj_type = '" . (string) $db->EscapeString($objecttype) . "',
-                    c_obj_id = '" . (string) $db->EscapeString($object) . "',
-                    c_spotlight = '" . (string) $db->EscapeString($spotlight) . "',
-                    c_sub_type = '" . (string) $db->EscapeString($subtype) . "',
-                    c_platforms = '" . (string) $db->EscapeString($platforms) . "',
-                    c_date_online = '" . (string) $db->EscapeString($date_online) . "',
-                    c_event = '" . (string) $db->EscapeString($event) . "',
-                    c_editor_id = '" . (string) $db->EscapeString($editor_id) . "'
-            WHERE   c_id = '" . (int) $db->EscapeString($id) . "'
+            SET     c_title = '" . (string) DB::EscapeString($title) . "',
+                    c_text = '" . (string) DB::EscapeString($text) . "',
+                    c_description = '" . (string) DB::EscapeString($description) . "',
+                    c_review_conclusion = '" . (string) DB::EscapeString($conclusion) . "',
+                    c_review_rating = '" . (string) DB::EscapeString($rating) . "',
+                    c_active = '" . (string) DB::EscapeString($active) . "',
+                    c_obj_type = '" . (string) DB::EscapeString($objecttype) . "',
+                    c_obj_id = '" . (string) DB::EscapeString($object) . "',
+                    c_spotlight = '" . (string) DB::EscapeString($spotlight) . "',
+                    c_sub_type = '" . (string) DB::EscapeString($subtype) . "',
+                    c_platforms = '" . (string) DB::EscapeString($platforms) . "',
+                    c_date_online = '" . (string) DB::EscapeString($date_online) . "',
+                    c_event = '" . (string) DB::EscapeString($event) . "',
+                    c_editor_id = '" . (string) DB::EscapeString($editor_id) . "'
+            WHERE   c_id = '" . (int) DB::EscapeString($id) . "'
             LIMIT   1";
-        $sqlContentItem = $db->GetQuery($editContentItem);
+        $sqlContentItem = DB::GetQuery($editContentItem);
         if(!$sqlContentItem) { return FALSE; }
 
         return TRUE;
     }
 
     function CreateContentItem($type) {
-        global $db;
-
         $type = (int) $type;
 
         //TODO: De platform en date_online data ergens anders verwerken
         // Get the content data
-        $createContentItem = "INSERT INTO ug_content (c_type, c_platforms, c_date, c_date_online) VALUES ('" . (int) $db->EscapeString($type) . "', 'main', '" . date('Y-m-d H:i:s') . "', '" . date('Y-m-d H:i:s') . "')";
-        $sqlContentItem = $db->GetQuery($createContentItem);
+        $createContentItem = "INSERT INTO ug_content (c_type, c_platforms, c_date, c_date_online) VALUES ('" . (int) DB::EscapeString($type) . "', 'main', '" . date('Y-m-d H:i:s') . "', '" . date('Y-m-d H:i:s') . "')";
+        $sqlContentItem = DB::GetQuery($createContentItem);
         if(!$sqlContentItem) { return FALSE; }
-        $insertid = (int) $db->GetInsertId();
+        $insertid = (int) DB::GetInsertId();
 
         return $insertid;
     }
 
     /*function GetItemType($id) {
-        global $db;
-        
         $getItemType = "
             SELECT  c_type
             FROM    ug_content
-            WHERE   c_id = '" . (int) $db->EscapeString($id) . "'
+            WHERE   c_id = '" . (int) DB::EscapeString($id) . "'
             LIMIT   1";
-        $sqlItemType = $db->GetQuery($getItemType);
+        $sqlItemType = DB::GetQuery($getItemType);
 
-        $typeArray = $db->GetArray($sqlItemType);
+        $typeArray = DB::GetArray($sqlItemType);
         $type = (int) $typeArray['c_type'];
 
         return $type;
@@ -386,17 +374,15 @@ class Content {
     }
 
     function GetPlatformTags($platforms) {
-        global $db;
-
         $platformTag = "";
         foreach($platforms as $platformId) {
             $getPlatform = "
                 SELECT 	*
                 FROM	ug_platforms
-                WHERE	p_id = '" . (int) $db->EscapeString($platformId) . "'
+                WHERE	p_id = '" . (int) DB::EscapeString($platformId) . "'
                 LIMIT 1";
-            $sqlPlatform = $db->GetQuery($getPlatform);
-            $rowPlatform = $db->GetArray($sqlPlatform);
+            $sqlPlatform = DB::GetQuery($getPlatform);
+            $rowPlatform = DB::GetArray($sqlPlatform);
             $platformTag .= '<div class="category category_' . strtolower($rowPlatform['p_short']) . '"></div>';
         }
 
@@ -409,8 +395,6 @@ class Content {
     }
 
     function GetPlatformTag($platforms) {
-        global $db;
-
         if(in_array('main', explode('|', $platforms)))
         {
             $platformTag = "main";
@@ -422,16 +406,16 @@ class Content {
         else
         {
             $platforms = "(" . str_replace("|", ",", $platforms) . ")";
-            $getPlatformTags = "SELECT * FROM ug_platforms WHERE p_id IN " . $db->EscapeString($platforms);
-            $sqlPlatformTags = $db->GetQuery($getPlatformTags);
+            $getPlatformTags = "SELECT * FROM ug_platforms WHERE p_id IN " . DB::EscapeString($platforms);
+            $sqlPlatformTags = DB::GetQuery($getPlatformTags);
 
-            switch($db->GetNumRows($sqlPlatformTags))
+            switch(DB::GetNumRows($sqlPlatformTags))
             {
                 case 0:
                     $platformTag = "main";
                     break;
                 case 1:
-                    $platformTags = $db->GetArray($sqlPlatformTags);
+                    $platformTags = DB::GetArray($sqlPlatformTags);
                     $platformTag = strtolower($platformTags['p_short']);
                     break;
                 default:
@@ -463,12 +447,11 @@ class Content {
     }
 
     function GetGames() {
-        global $db;
         $games = array();
 
         $getGames = "SELECT g_id, g_title FROM ug_games";
-        $sqlGames = $db->GetQuery($getGames);
-        while($game = $db->GetArray($sqlGames)) {
+        $sqlGames = DB::GetQuery($getGames);
+        while($game = DB::GetArray($sqlGames)) {
             $games[(int) $game['g_id']] = (string) $game['g_title'];
         }
 
@@ -476,12 +459,11 @@ class Content {
     }
 
     function GetCompanies() {
-        global $db;
         $companies = array();
 
         $getCompanies = "SELECT c_id, c_name FROM ug_companies";
-        $sqlCompanies = $db->GetQuery($getCompanies);
-        while($company = $db->GetArray($sqlCompanies)) {
+        $sqlCompanies = DB::GetQuery($getCompanies);
+        while($company = DB::GetArray($sqlCompanies)) {
             $companies[(int) $company['c_id']] = (string) $company['c_name'];
         }
 
@@ -489,12 +471,10 @@ class Content {
     }
 
     function GetGame($id) {
-        global $db;
-        
-        $getGame = "SELECT g_dev_id, g_pub_id, g_platforms, g_genre, g_title, g_description, g_website, g_multiplayer, g_image, g_release FROM ug_games WHERE g_id = '" . (int) $db->EscapeString($id) . "'";
-        $sqlGame = $db->GetQuery($getGame);
-        $game = $db->GetArray($sqlGame);
-        
+        $getGame = "SELECT g_dev_id, g_pub_id, g_platforms, g_genre, g_title, g_description, g_website, g_multiplayer, g_image, g_release FROM ug_games WHERE g_id = '" . (int) DB::EscapeString($id) . "'";
+        $sqlGame = DB::GetQuery($getGame);
+        $game = DB::GetArray($sqlGame);
+
         return array(
             'id' => (int) $id,
             'type' => (string) 'game',
@@ -512,11 +492,9 @@ class Content {
     }
 
     function GetCompany($id) {
-        global $db;
-
-        $getCompany = "SELECT c_type, c_name, c_description FROM ug_companies WHERE c_id = '" . (int) $db->EscapeString($id) . "'";
-        $sqlCompany = $db->GetQuery($getCompany);
-        $company = $db->GetArray($sqlCompany);
+        $getCompany = "SELECT c_type, c_name, c_description FROM ug_companies WHERE c_id = '" . (int) DB::EscapeString($id) . "'";
+        $sqlCompany = DB::GetQuery($getCompany);
+        $company = DB::GetArray($sqlCompany);
 
         return array(
             'id' => (int) $id,
@@ -527,14 +505,12 @@ class Content {
     }
 
     function GetImage($id) {
-        global $db;
-        
         if((int) $id <= 0) { return "<img style='width: 110px; height: 126px;' src='images/avatar.jpg' class='avatar'>"; }
         $id = (int) $id;
 
-        $getImage = "SELECT i_filename, i_location FROM ug_images WHERE i_id = '" . (int) $db->EscapeString($id) . "' LIMIT 1";
-        $sqlImage = $db->GetQuery($getImage);
-        $image = $db->GetArray($sqlImage);
+        $getImage = "SELECT i_filename, i_location FROM ug_images WHERE i_id = '" . (int) DB::EscapeString($id) . "' LIMIT 1";
+        $sqlImage = DB::GetQuery($getImage);
+        $image = DB::GetArray($sqlImage);
         $imagefilename = $image['i_filename'];
         $imagelocation = $image['i_location'];
 
@@ -548,14 +524,12 @@ class Content {
     }
 
     function GetGenre($id) {
-        global $db;
-
         if((int) $id <= 0) { return "-"; }
         $id = (int) $id;
 
-        $getGenre = "SELECT g_name FROM ug_genres WHERE g_id = '" . (int) $db->EscapeString($id) . "' LIMIT 1";
-        $sqlGenre = $db->GetQuery($getGenre);
-        $genre = $db->GetArray($sqlGenre);
+        $getGenre = "SELECT g_name FROM ug_genres WHERE g_id = '" . (int) DB::EscapeString($id) . "' LIMIT 1";
+        $sqlGenre = DB::GetQuery($getGenre);
+        $genre = DB::GetArray($sqlGenre);
         $genre = (string) $genre['g_name'];
 
         return $genre;
@@ -579,7 +553,7 @@ class Content {
 
         return $image;
     }
-    
+
 }
 
 ?>

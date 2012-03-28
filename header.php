@@ -14,7 +14,8 @@ require "config.php";
 
 // Database modification and usage class
 require "source/db.class.php";
-$db = new DB($db_host, $db_username, $db_password, $db_database);
+DB::Connect($db_host, $db_username, $db_password, $db_database);
+//$db = new DB($db_host, $db_username, $db_password, $db_database);
 
 // Content modification and usage class
 require "source/content.class.php";
@@ -28,10 +29,10 @@ require "config_settings.php";
 
 // User modification and usage class
 require "source/user.class.php";
-$user = new User();
+//$user = new User();
 
 // Block admin to anyone other than the allowed users
-if((!in_array((int) $user->userdata['userid'], array(576, 589))) && (strpos($_SERVER['PHP_SELF'], "admin") !== FALSE)) {
+if((!in_array((int) User::getUserId(), array(576, 589))) && (strpos($_SERVER['PHP_SELF'], "admin") !== FALSE)) {
     if($_SERVER['SERVER_NAME'] != 'localhost') { //DEBUG
         exit("You do not have access to this page.");
     } //DEBUG
