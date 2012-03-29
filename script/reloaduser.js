@@ -3,12 +3,11 @@ function notifyParent() {
 }
 
 function frameLoaded() {
-    var iframe = document.getElementById('loginframe');
-    iframe.src = 'http://www.undercover-network.nl/forum/forum.php';
-    iframe.onload = function(){
-       //alert('Logged in succesfuly!');
-       location.reload(true);
-    };
+    //var iframe = document.createElement("iframe");
+    //iframe.style.display = 'none';
+    //document.body.appendChild(iframe);
+    var iframe = document.getElementById("loginframe");
+    iframe.src = "reload.php?target=http://www.undercover-network.nl/forum/forum.php&referer="+document.URL;
 }
 
 function showLoading() {
