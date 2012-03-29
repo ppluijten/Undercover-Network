@@ -395,34 +395,61 @@ class Content {
     }
 
     function GetPlatformTag($platforms) {
-        if(in_array('main', explode('|', $platforms)))
+        // Check if an input string was given
+        if(strlen($platforms) > 0)
         {
+            // Parse the string into an array
+            $platforms = explode('|', $platforms);
+
+            // If the array contains items
+            if(count($platforms) > 0) {
+                // If the array contained the main item
+                if(in_array('main', $platforms))
+                {
+                    // Return the main tag
+                    $platformTag = "main";
+                }
+                // If the array contained the multi item
+                elseif(in_array('multi', $platforms))
+                {
+                    // Return the multi tag
+                    $platformTag = "multi";
+                }
+                // Neither main nor multi was found, so we need to look further
+                else
+                {
+                    // Turn the platforms array into a query
+                    $getPlatformTags = "SELECT * FROM ug_platforms WHERE p_id IN (" . DB::EscapeString(implode(",", $platforms)) . ")";
+                    $sqlPlatformTags = DB::GetQuery($getPlatformTags);
+
+                    // Check the amount of platforms that were found
+                    switch(DB::GetNumRows($sqlPlatformTags))
+                    {
+                        case 0:
+                            // No platforms result in main
+                            $platformTag = "main";
+                            break;
+                        case 1:
+                            // One platform results in the platform which was found
+                            $platformTags = DB::GetArray($sqlPlatformTags);
+                            $platformTag = strtolower($platformTags['p_short']);
+                            break;
+                        default:
+                            // Multiple platforms return in multi
+                            $platformTag = "multi";
+                            break;
+                    }
+                }
+            } else {
+                // No items were found, return main
+                $platformTag = "main";
+            }
+        } else {
+            // No input string was given, return main
             $platformTag = "main";
         }
-        elseif(in_array('multi', explode('|', $platforms)))
-        {
-            $platformTag = "multi";
-        }
-        else
-        {
-            $platforms = "(" . str_replace("|", ",", $platforms) . ")";
-            $getPlatformTags = "SELECT * FROM ug_platforms WHERE p_id IN " . DB::EscapeString($platforms);
-            $sqlPlatformTags = DB::GetQuery($getPlatformTags);
 
-            switch(DB::GetNumRows($sqlPlatformTags))
-            {
-                case 0:
-                    $platformTag = "main";
-                    break;
-                case 1:
-                    $platformTags = DB::GetArray($sqlPlatformTags);
-                    $platformTag = strtolower($platformTags['p_short']);
-                    break;
-                default:
-                    $platformTag = "multi";
-                    break;
-            }
-        }
+        // Add the tag into a div and return it
         $platformTag = '<div class="category category_' . $platformTag . '"></div>';
         return $platformTag;
     }
