@@ -18,6 +18,8 @@ class User {
         //TODO: Deze regel weghalen als helemaal is overgegaan op het nieuwe forum
         $sessionhash = (isset($_COOKIE['bbsessionhash'])) ? (string) $_COOKIE['bbsessionhash'] : (string) $_COOKIE['bb_sessionhash'];
 
+        //TODO: Check userid/lastvisit/lastactivity/password in cookie
+
         $getSessionData = "
             SELECT userid, loggedin
             FROM " . Settings::GetSetting('vbulletin_db_prefix') . "session
@@ -32,7 +34,9 @@ class User {
         if ($loggedin == 2 && $userid > 0) {
             self::$loggedin = true;
             self::$userid = $userid;
-        } else {
+        } /*elseif ($loggedin == 1 && $userid > 0) {
+
+        }*/ else {
             self::$loggedin = false;
             self::$userid = 0;
         }

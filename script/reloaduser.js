@@ -3,9 +3,7 @@ function notifyParent() {
 }
 
 function frameLoaded() {
-    var iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
-    iframe.src = 'http://www.undercover-gaming.nl/forum';
-    document.body.appendChild(iframe);
+    var iframe = document.getElementById('loginframe');
+    iframe.src = 'http://www.undercover-network.nl/forum/forum.php';
     setTimeout('location.reload(true);', 500);
 }
