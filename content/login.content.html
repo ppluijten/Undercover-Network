@@ -1,5 +1,10 @@
 <script src="http://www.undercover-network.nl/forum/clientscript/vbulletin_md5.js?v=373" type="text/javascript"></script>
-<form onsubmit="md5hash(vb_login_password, vb_login_md5password, vb_login_md5password_utf, 0);" id="loginform" name="loginform" method="post" action="http://www.undercover-network.nl/forum/login.php?do=login" target="loginframe">
+<form onsubmit="showLoading(); md5hash(vb_login_password, vb_login_md5password, vb_login_md5password_utf, 0);"
+      id="loginform"
+      name="loginform"
+      method="post"
+      action="http://www.undercover-network.nl/forum/login.php?do=login"
+      target="loginframe">
 
     <!--<fieldset class="logindetails" id="logindetails">
         <legend>Login Details</legend>
@@ -27,7 +32,8 @@
         </div>
     </fieldset>-->
 
-    <input type="text" class="zoekveld" size="10" tabindex="101" id="navbar_username" name="vb_login_username" title="Nickname" onfocus="if (this.value == 'Nickname...') this.value = '';" value="Nickname...">
+    <input type="text" class="zoekveld" size="10" tabindex="101" id="navbar_username" name="vb_login_username" title="Nickname"
+           onfocus="if (this.value == 'Nickname...') this.value = '';" value="Nickname...">
     <input type="password" class="zoekveld" size="10" tabindex="102" id="navbar_password" name="vb_login_password" title="Password">
     <input type="image" src="{folder}layout/layout_right/loginbutton.png" alt="Login" tabindex="104" class="loginbutton">
     <div class='register'>Registreren - Wachtwoord vergeten?</div>    
@@ -39,4 +45,5 @@
     <input type="hidden" name="vb_login_md5password">
     <input type="hidden" name="vb_login_md5password_utf">
 </form>
+<div id="loading" name="loading" style="display: none;"><img src="{folder}images/ajax-loader.gif" /> Loading...</div>
 <iframe id="loginframe" name="loginframe" style="display: none;"></iframe>
