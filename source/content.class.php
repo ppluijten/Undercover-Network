@@ -96,7 +96,7 @@ class Content {
             WHERE   c_active = '1'
             " . $and_type . "
             " . $and_spotlight . "
-            AND     DATE_FORMAT(c_date_online, '%d-%m-%Y %H:%i') <= '" . date('d-m-Y H:i') . "'
+            AND     DATE_FORMAT(c_date_online, '%Y-%m-%d %H:%i') <= '" . date('Y-m-d H:i') . "'
             " . DB::EscapeString($order) . "
             " . DB::EscapeString($limit);
         $sqlitem = DB::GetQuery($getitem);

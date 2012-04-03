@@ -13,9 +13,7 @@ if(User::isLoggedIn()) {
     $usertemplate->setVariable("userdata", $userdatatemplate->ReturnOutput());
 } else {
     $usertemplate->setVariable("userdata", "<img style='width: 65px; height: 65px;' src='images/avatar.jpg' class='avatar'>");
-    //TODO: Login form werkend maken
     $usertemplate->setVariable("loginform", $logintemplate->ReturnOutput());
-    //$usertemplate->setVariable("loginform", "<a href='forum/forum.php'><img src='layout/layout_right/loginbutton.png' alt='Login' class='loginbutton'></a>");
 }
 
 $prevars['templates']['usercontrol'] = $usertemplate->ReturnOutput();
