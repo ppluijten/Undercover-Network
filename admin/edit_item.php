@@ -8,6 +8,7 @@ $id = (int) $_GET['id'];
 $contentItem = Content::GetContentItem($id);
 if($contentItem) {
     // Content item was found
+    $type = (int) $contentItem['type'];
     $objectid = (int) $contentItem['object'];
     $objecttype = (int) $contentItem['objecttype'];
     $spotlighttype = (int) $contentItem['spotlight'];
@@ -15,6 +16,8 @@ if($contentItem) {
     $template->SetVariable("xajaxJavascript", $xajax->printJavascript());
     $template->SetVariable("body_onload", "xajax_previewitem($id); set_type($objecttype); set_sl_type($spotlighttype);");
     $template->SetVariable("id", $id);
+    $template->SetVariable("type", $type);
+    $template->SetVariable("author", $contentItem['author']);
     $template->SetVariable("item_title", $contentItem['title']);
     $template->SetVariable("item_description", $contentItem['description']);
     $template->SetVariable("text_orig", $contentItem['text_orig']);
