@@ -4,9 +4,9 @@ require_once "header.php";
 require_once "usercontrol.php";
 
 $id = (int) $_GET['id'];
-$contentItem = $content->GetContentItem($id);
+$contentItem = Content::GetContentItem($id);
 
-$object = $content->GetObject($contentItem['objecttype'], $contentItem['object']);
+$object = Content::GetObject($contentItem['objecttype'], $contentItem['object']);
 $object_id = $object['id'];
 $object_type = $object['type'];
 if((int) $object_id > 0) {
@@ -14,18 +14,18 @@ if((int) $object_id > 0) {
     switch($object_type) {
         case 'game':
             $game_title = $object['title'];
-            $game_platforms = $content->GetPlatformTags(explode('|', $object['platforms']));
-            $game_image = $content->GetImage($object['image']);
-            $game_genre = $content->GetGenre($object['genre']);
-            $game_publisher = $content->GetCompany($object['publisher']);
+            $game_platforms = Content::GetPlatformTags(explode('|', $object['platforms']));
+            $game_image = Content::GetImage($object['image']);
+            $game_genre = Content::GetGenre($object['genre']);
+            $game_publisher = Content::GetCompany($object['publisher']);
             $game_publisher = $game_publisher['name'];
-            $game_developer = $content->GetCompany($object['developer']);
+            $game_developer = Content::GetCompany($object['developer']);
             $game_developer = $game_developer['name'];
             $game_website = "<a href='" . $object['website'] . "'>Klik hier</a>";
             $game_multiplayer = $object['multiplayer'];
             $game_release = date('d-m-Y', $object['release']);
-            $game_rating = $content->GetGameRating($object_id);
-            $game_rating_image = $content->GetRatingImage($game_rating);
+            $game_rating = Content::GetGameRating($object_id);
+            $game_rating_image = Content::GetRatingImage($game_rating);
             $prevars['templates']['game_title'] = $game_title;
             $prevars['templates']['game_platforms'] = $game_platforms;
             $prevars['templates']['game_image'] = $game_image;

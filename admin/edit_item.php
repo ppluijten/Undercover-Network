@@ -5,7 +5,7 @@ require "edit_item.common.php";
 $template = new Template("edit_item", "Undercover-Gaming :: Edit Item", "../");
 
 $id = (int) $_GET['id'];
-$contentItem = $content->GetContentItem($id);
+$contentItem = Content::GetContentItem($id);
 if($contentItem) {
     // Content item was found
     $objectid = (int) $contentItem['object'];
@@ -29,7 +29,7 @@ if($contentItem) {
     $template->SetVariable("checked_sl_2", $spotlighttype == 2 ? 'checked ' : '');
 
     $games_html = "";
-    $games = $content->GetGames();
+    $games = Content::GetGames();
     foreach($games as $gameid => $gamename) {
         $games_html .= "<option id='option_$gameid' value='$gameid'" . ($gameid == $objectid ? " checked='1'" : "") . ">$gamename</option>";
     }
@@ -37,7 +37,7 @@ if($contentItem) {
     $template->SetVariable("games", $games_html);
 
     $companies_html = "";
-    $companies = $content->GetCompanies();
+    $companies = Content::GetCompanies();
     foreach($companies as $companyid => $companyname) {
         $companies_html .= "<option id='option_$companyid' value='$companyid'" . ($companyid == $objectid ? " checked='1'" : "") . ">$companyname</option>";
     }

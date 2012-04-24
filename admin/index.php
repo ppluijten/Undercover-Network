@@ -4,14 +4,14 @@ require_once "../header.php";
 require_once "usercontrol.php";
 $template = new Template("admin_index", "Undercover-Gaming :: Administrator", "../");
 
-$adminpagecount = $content->GetPageCount(0, 20);
+$adminpagecount = Content::GetPageCount(0, 20);
 
 $page = (int) $_GET['page'];
 $page = min($page, $adminpagecount);
 $page = max($page, 1);
 
 $content_html = "";
-$adminArray = $content->GetContentItems(0, $page, 20);
+$adminArray = Content::GetContentItems(0, $page, 20);
 foreach($adminArray as $contentItem) {
     switch($contentItem['type']) {
         case 1:
@@ -36,7 +36,7 @@ foreach($adminArray as $contentItem) {
     }
     $content_html .= "<div class='entryline'>
         <div class='datum'>" . date('d-m', $contentItem['date']) . "</div>
-        <div class='platform'>" . $content->GetPlatformTag($contentItem['tag']) . "</div>
+        <div class='platform'>" . Content::GetPlatformTag($contentItem['tag']) . "</div>
         <div class='type'>" . $contenttype . "</div>
         <div class='title'><a href='edit_item.php?id=" . $contentItem['id'] . "'>" . $contentItem['title'] . "</a></div>
         <div class='reactie'>(" . $contentItem['comments'] . ")</div>

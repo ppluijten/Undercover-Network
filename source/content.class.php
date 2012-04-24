@@ -10,7 +10,7 @@ class Content {
      * @param int $spotlight OPTIONAL, whether to count spotlight or covered items [default = 0]
      * @return int the amount of pages
      */
-    function GetPageCount($type, $pageLimit, $spotlight = 0) {
+    public static function GetPageCount($type, $pageLimit, $spotlight = 0) {
         if((int) $type > 0) {
             $and_type = "AND     c_type = '" . (int) DB::EscapeString($type) . "'";
         } else {
@@ -46,8 +46,8 @@ class Content {
      * @param boolean $detailed whether to display detailed information [OPTIONAL, default = FALSE]
      * @return array the array of content items
      */
-    function GetCoveredItems($pageLimit, $detailed = FALSE) {
-        return $this->GetContentItems(0, 0, $pageLimit, $detailed, 2);
+    public static function GetCoveredItems($pageLimit, $detailed = FALSE) {
+        return self::GetContentItems(0, 0, $pageLimit, $detailed, 2);
     }
 
     /**
@@ -60,7 +60,7 @@ class Content {
      * @param int $spotlight whether to display covered or spotlight items, 0 for all [OPTIONAL, default = 0]
      * @return array the array of content items
      */
-    function GetContentItems($type = 0, $pageNumber = 0, $pageLimit = 0, $detailed = FALSE, $spotlight = 0) {
+    public static function GetContentItems($type = 0, $pageNumber = 0, $pageLimit = 0, $detailed = FALSE, $spotlight = 0) {
         //TODO: Deze functie afmaken
 
         $itemArray = array();
@@ -174,7 +174,7 @@ class Content {
                         $author = DB::GetArray($sqlAuthor);
                         $itemAuthor = $author['crew_name'];
 
-                        $itemText = $this->ConvertBB($item['c_text']);
+                        $itemText = self::ConvertBB($item['c_text']);
                 }
 
                 $itemEntry = array(
@@ -194,7 +194,7 @@ class Content {
         return $itemArray;
     }
 
-    function GetContentItem($id) {
+    public static function GetContentItem($id) {
         if((int) $id <= 0) { return false; }
 
         // Get the content data
@@ -228,9 +228,9 @@ class Content {
 
         // Get the remaining data
         $contentDate = strtotime($content['c_date']);
-        $contentTag = $this->GetPlatformTag($content['c_platforms']);
-        $contentTags = $this->GetPlatformTags(explode('|', $content['c_platforms']));
-        $contentText = $this->ConvertBB(trim($content['c_text']));
+        $contentTag = self::GetPlatformTag($content['c_platforms']);
+        $contentTags = self::GetPlatformTags(explode('|', $content['c_platforms']));
+        $contentText = self::ConvertBB(trim($content['c_text']));
 
         // Return the data
         $newsEntry = array(
@@ -257,7 +257,7 @@ class Content {
         return $newsEntry;
     }
 
-    function EditContentItem($id, $data) {
+    public static function EditContentItem($id, $data) {
         $id = (int) $id;
         $title = (string) $data['title'];
         $description = (string) $data['description'];
@@ -299,7 +299,7 @@ class Content {
         return TRUE;
     }
 
-    function CreateContentItem($type) {
+    public static function CreateContentItem($type) {
         $type = (int) $type;
 
         //TODO: De platform en date_online data ergens anders verwerken
@@ -326,7 +326,7 @@ class Content {
         return $type;
     }*/
 
-    function ConvertBB($bericht) {
+    public static function ConvertBB($bericht) {
         /* Init */
         $bericht = stripslashes($bericht);
         $bericht = nl2br($bericht);
@@ -398,7 +398,7 @@ class Content {
         return $bericht;
     }
 
-    function GetPlatformTags($platforms) {
+    public static function GetPlatformTags($platforms) {
         $platformTag = "";
         foreach($platforms as $platformId) {
             $getPlatform = "
@@ -419,7 +419,7 @@ class Content {
         return $platformTag;
     }
 
-    function GetPlatformTag($platforms) {
+    public static function GetPlatformTag($platforms) {
         // Check if an input string was given
         if(strlen($platforms) > 0)
         {
@@ -479,15 +479,15 @@ class Content {
         return $platformTag;
     }
 
-    function GetObject($type, $id) {
+    public static function GetObject($type, $id) {
         switch($type) {
             case 1:
                 // Game
-                $object = $this->GetGame($id);
+                $object = self::GetGame($id);
                 break;
             case 2:
                 // Company
-                $object = $this->GetCompany($id);
+                $object = self::GetCompany($id);
                 break;
             default:
                 // None
@@ -498,7 +498,7 @@ class Content {
         return $object;
     }
 
-    function GetGames() {
+    public static function GetGames() {
         $games = array();
 
         $getGames = "SELECT g_id, g_title FROM ug_games";
@@ -510,7 +510,7 @@ class Content {
         return $games;
     }
 
-    function GetCompanies() {
+    public static function GetCompanies() {
         $companies = array();
 
         $getCompanies = "SELECT c_id, c_name FROM ug_companies";
@@ -522,7 +522,7 @@ class Content {
         return $companies;
     }
 
-    function GetGame($id) {
+    public static function GetGame($id) {
         $getGame = "SELECT g_dev_id, g_pub_id, g_platforms, g_genre, g_title, g_description, g_website, g_multiplayer, g_image, g_release FROM ug_games WHERE g_id = '" . (int) DB::EscapeString($id) . "'";
         $sqlGame = DB::GetQuery($getGame);
         $game = DB::GetArray($sqlGame);
@@ -543,7 +543,7 @@ class Content {
         );
     }
 
-    function GetCompany($id) {
+    public static function GetCompany($id) {
         $getCompany = "SELECT c_type, c_name, c_description FROM ug_companies WHERE c_id = '" . (int) DB::EscapeString($id) . "'";
         $sqlCompany = DB::GetQuery($getCompany);
         $company = DB::GetArray($sqlCompany);
@@ -556,7 +556,7 @@ class Content {
         );
     }
 
-    function GetImage($id) {
+    public static function GetImage($id) {
         if((int) $id <= 0) { return "<img style='width: 110px; height: 126px;' src='images/avatar.jpg' class='avatar'>"; }
         $id = (int) $id;
 
@@ -575,7 +575,7 @@ class Content {
         return $imagefile;
     }
 
-    function GetGenre($id) {
+    public static function GetGenre($id) {
         if((int) $id <= 0) { return "-"; }
         $id = (int) $id;
 
@@ -587,12 +587,12 @@ class Content {
         return $genre;
     }
 
-    function GetGameRating($id) {
+    public static function GetGameRating($id) {
         //TODO: Deze functie maken
         return (int) 90;
     }
 
-    function GetRatingImage($rating) {
+    public static function GetRatingImage($rating) {
         if((int) $rating < 0) { return "<img src='layout/rating/no.png' class='gameinfo_cijfer'>"; }
         if((int) $rating > 100) { return "<img src='layout/rating/no.png' class='gameinfo_cijfer'>"; }
         $rating = (int) $rating;

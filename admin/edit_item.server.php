@@ -6,7 +6,7 @@ require("edit_item.common.php");
 function previewitem($id)
 {
     global $content;
-    $contentItem = $content->GetContentItem($id);
+    $contentItem = Content::GetContentItem($id);
 
     $objResponse = new xajaxResponse();
 
@@ -19,7 +19,7 @@ function previewitem($id)
             break;
         case 2:
             // Article
-            $object = $content->GetObject($contentItem['objecttype'], $contentItem['object']);
+            $object = Content::GetObject($contentItem['objecttype'], $contentItem['object']);
 
             $innerHTML = "<h1>Article: " .  $contentItem['title'] . "</h1>";
             $innerHTML .= "<h3><i>" . $contentItem['author'] . " (" . date('d-m-Y H:i', $contentItem['date']) . ")</i></h3>";
@@ -29,7 +29,7 @@ function previewitem($id)
             break;
         case 3:
             // Preview
-            $object = $content->GetObject($contentItem['objecttype'], $contentItem['object']);
+            $object = Content::GetObject($contentItem['objecttype'], $contentItem['object']);
 
             $innerHTML = "<h1>Preview: " .  $contentItem['title'] . "</h1>";
             $innerHTML .= "<h3><i>" . $contentItem['author'] . " (" . date('d-m-Y H:i', $contentItem['date']) . ")</i></h3>";
@@ -39,7 +39,7 @@ function previewitem($id)
             break;
         case 4:
             // Review
-            $object = $content->GetObject($contentItem['objecttype'], $contentItem['object']);
+            $object = Content::GetObject($contentItem['objecttype'], $contentItem['object']);
 
             $innerHTML = "<h1>Preview: " .  $contentItem['title'] . "</h1>";
             $innerHTML .= "<h3><i>" . $contentItem['author'] . " (" . date('d-m-Y H:i', $contentItem['date']) . ")</i></h3>";
@@ -85,7 +85,7 @@ function edititem($id, $title, $description, $text, $conclusion, $rating, $activ
         'event' => (int) $event,
         'editorid' => (int) $editor
     );
-    $result = $content->EditContentItem($id, $data);
+    $result = Content::EditContentItem($id, $data);
 
     $objResponse = new xajaxResponse();
     if($result === TRUE) {

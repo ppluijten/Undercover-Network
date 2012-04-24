@@ -5,18 +5,18 @@ require_once "usercontrol.php";
 $template = new Template("index", "Undercover-Gaming :: Frontpage");
 
 $news_html = "";
-$newsArray = $content->GetContentItems(1, 0, 10);
+$newsArray = Content::GetContentItems(1, 0, 10);
 foreach($newsArray as $newsItem) {
     $news_html .= "<div class='entryline'>
         <div class='datum'>" . date('d-m', $newsItem['date']) . "</div>
-        <div class='platform'>" . $content->GetPlatformTag($newsItem['tag']) . "</div>
+        <div class='platform'>" . Content::GetPlatformTag($newsItem['tag']) . "</div>
         <div class='title'><a href='content.php?id=" . $newsItem['id'] . "'>" . $newsItem['title'] . "</a></div>
         <div class='reactie'>(" . $newsItem['comments'] . ")</div>
     </div>";
 }
 
 $covered_html = "";
-$coveredArray = $content->GetCoveredItems(10);
+$coveredArray = Content::GetCoveredItems(10);
 foreach($coveredArray as $coveredItem) {
     switch($coveredItem['type']) {
         case 1:
@@ -40,7 +40,7 @@ foreach($coveredArray as $coveredItem) {
     }
     $covered_html .= "<div class='entryline'>
         <div class='datum'>" . date('d-m', $coveredItem['date']) . "</div>
-        <div class='platform'>" . $content->GetPlatformTag($coveredItem['tag']) . "</div>
+        <div class='platform'>" . Content::GetPlatformTag($coveredItem['tag']) . "</div>
         <div class='type'>" . $coveredtype . "</div>
         <div class='title'><a href='content.php?id=" . $coveredItem['id'] . "'>" . $coveredItem['title'] . "</a></div>
         <div class='reactie'>(" . $coveredItem['comments'] . ")</div>

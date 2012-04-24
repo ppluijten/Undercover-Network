@@ -8,7 +8,7 @@ $template->SetVariable("xajaxJavascript", $xajax->printJavascript());
 $template->SetVariable("body_onload", "set_type(0); set_sl_type(0);");
 
 $games_html = "";
-$games = $content->GetGames();
+$games = Content::GetGames();
 foreach($games as $gameid => $gamename) {
     $games_html .= "<option id='option_$gameid' value='$gameid'" . ($gameid == $objectid ? " checked='1'" : "") . ">$gamename</option>";
 }
@@ -16,7 +16,7 @@ foreach($games as $gameid => $gamename) {
 $template->SetVariable("games", $games_html);
 
 $companies_html = "";
-$companies = $content->GetCompanies();
+$companies = Content::GetCompanies();
 foreach($companies as $companyid => $companyname) {
     $companies_html .= "<option id='option_$companyid' value='$companyid'" . ($companyid == $objectid ? " checked='1'" : "") . ">$companyname</option>";
 }

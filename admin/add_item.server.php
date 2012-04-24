@@ -6,7 +6,7 @@ require("add_item.common.php");
 /*function previewitem($id)
 {
     global $content;
-    $contentItem = $content->GetContentItem($id);
+    $contentItem = Content::GetContentItem($id);
 
     $objResponse = new xajaxResponse();
 
@@ -19,7 +19,7 @@ require("add_item.common.php");
             break;
         case 2:
             // Article
-            $object = $content->GetObject($contentItem['objecttype'], $contentItem['object']);
+            $object = Content::GetObject($contentItem['objecttype'], $contentItem['object']);
 
             $innerHTML = "<h1>Article: " .  $contentItem['title'] . "</h1>";
             $innerHTML .= "<h3><i>" . $contentItem['author'] . " (" . date('d-m-Y H:i', $contentItem['date']) . ")</i></h3>";
@@ -29,7 +29,7 @@ require("add_item.common.php");
             break;
         case 3:
             // Preview
-            $object = $content->GetObject($contentItem['objecttype'], $contentItem['object']);
+            $object = Content::GetObject($contentItem['objecttype'], $contentItem['object']);
 
             $innerHTML = "<h1>Preview: " .  $contentItem['title'] . "</h1>";
             $innerHTML .= "<h3><i>" . $contentItem['author'] . " (" . date('d-m-Y H:i', $contentItem['date']) . ")</i></h3>";
@@ -39,7 +39,7 @@ require("add_item.common.php");
             break;
         case 4:
             // Review
-            $object = $content->GetObject($contentItem['objecttype'], $contentItem['object']);
+            $object = Content::GetObject($contentItem['objecttype'], $contentItem['object']);
 
             $innerHTML = "<h1>Preview: " .  $contentItem['title'] . "</h1>";
             $innerHTML .= "<h3><i>" . $contentItem['author'] . " (" . date('d-m-Y H:i', $contentItem['date']) . ")</i></h3>";
@@ -85,8 +85,8 @@ function createitem($type, $title, $description, $text, $conclusion, $rating, $a
         'event' => (int) $event,
         'editorid' => 0
     );
-    $create = $content->CreateContentItem($type);
-    if($create) { $id = (int) $create; $result = $content->EditContentItem($id, $data); } else { $id = 0; $result = FALSE; }
+    $create = Content::CreateContentItem($type);
+    if($create) { $id = (int) $create; $result = Content::EditContentItem($id, $data); } else { $id = 0; $result = FALSE; }
     
     $objResponse = new xajaxResponse();
     if($result === TRUE) {

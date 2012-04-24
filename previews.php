@@ -4,18 +4,18 @@ require_once "header.php";
 require_once "usercontrol.php";
 $template = new Template("previews", "Undercover-Gaming :: Previews");
 
-$previewpagecount = $content->GetPageCount(3, 20);
+$previewpagecount = Content::GetPageCount(3, 20);
 
 $page = (int) $_GET['page'];
 $page = min($page, $previewpagecount);
 $page = max($page, 1);
 
 $content_html = "";
-$previewArray = $content->GetContentItems(3, $page, 20);
+$previewArray = Content::GetContentItems(3, $page, 20);
 foreach($previewArray as $previewItem) {
     $content_html .= "<div class='entryline'>
         <div class='datum'>" . date('d-m', $previewItem['date']) . "</div>
-        <div class='platform'>" . $content->GetPlatformTag($previewItem['tag']) . "</div>
+        <div class='platform'>" . Content::GetPlatformTag($previewItem['tag']) . "</div>
         <div class='title'><a href='content.php?id=" . $previewItem['id'] . "'>" . $previewItem['title'] . "</a></div>
         <div class='reactie'>(" . $previewItem['comments'] . ")</div>
     </div>";
