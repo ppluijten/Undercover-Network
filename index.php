@@ -5,7 +5,7 @@ require_once "usercontrol.php";
 $template = new Template("index", "Undercover-Gaming :: Frontpage");
 
 $news_html = "";
-$newsArray = $content->GetContentItems(1, 0, 10, FALSE, 0);
+$newsArray = $content->GetContentItems(1, 0, 10);
 foreach($newsArray as $newsItem) {
     $news_html .= "<div class='entryline'>
         <div class='datum'>" . date('d-m', $newsItem['date']) . "</div>
@@ -16,7 +16,6 @@ foreach($newsArray as $newsItem) {
 }
 
 $covered_html = "";
-$newsArray = $content->GetContentItems(0, 0, 10, FALSE, 2);
 $coveredArray = $content->GetCoveredItems(10);
 foreach($coveredArray as $coveredItem) {
     switch($coveredItem['type']) {

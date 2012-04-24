@@ -2,14 +2,22 @@
 
 class Content {
 
-    function GetPageCount($type, $pageLimit, $spotlight = -1) {
+    /**
+     * Get the number of pages
+     *
+     * @param int $type the type or item
+     * @param int $pageLimit the limt of items per page
+     * @param int $spotlight OPTIONAL, whether to count spotlight or covered items [default = 0]
+     * @return int the amount of pages
+     */
+    function GetPageCount($type, $pageLimit, $spotlight = 0) {
         if((int) $type > 0) {
             $and_type = "AND     c_type = '" . (int) DB::EscapeString($type) . "'";
         } else {
             $and_type = "";
         }
 
-        if((int) $spotlight > -1) {
+        if((int) $spotlight > 0) {
             $and_spotlight = "AND     c_spotlight = '" . (int) DB::EscapeString($spotlight) . "'";
         } else {
             $and_spotlight = "";
@@ -31,11 +39,28 @@ class Content {
         return $amount;
     }
 
+    /**
+     * Fetch an array of content items, selecting only covered items
+     *
+     * @param int $pageLimit the limit of items per page
+     * @param boolean $detailed whether to display detailed information [OPTIONAL, default = FALSE]
+     * @return array the array of content items
+     */
     function GetCoveredItems($pageLimit, $detailed = FALSE) {
         return $this->GetContentItems(0, 0, $pageLimit, $detailed, 2);
     }
 
-    function GetContentItems($type = 0, $pageNumber = 0, $pageLimit = 0, $detailed = FALSE, $spotlight = -1) {
+    /**
+     * Fetch an array of content items
+     *
+     * @param int $type the type of item, 0 for all [OPTIONAL, default = 0]
+     * @param int $pageNumber the number of the page [OPTIONAL, default = 0]
+     * @param int $pageLimit the limit of items per page [OPTIONAL, default = 0]
+     * @param boolean $detailed whether to display detailed information [OPTIONAL, default = FALSE]
+     * @param int $spotlight whether to display covered or spotlight items, 0 for all [OPTIONAL, default = 0]
+     * @return array the array of content items
+     */
+    function GetContentItems($type = 0, $pageNumber = 0, $pageLimit = 0, $detailed = FALSE, $spotlight = 0) {
         //TODO: Deze functie afmaken
 
         $itemArray = array();
@@ -69,7 +94,7 @@ class Content {
                 }
                 break;
             default:
-                // Other or none
+                // Other or all
                 if(Settings::SettingExists("content_other_sort")) {
                     $order = "ORDER BY " . (string) Settings::GetSetting("content_other_sort");
                 }
@@ -84,7 +109,7 @@ class Content {
             $and_type = "";
         }
 
-        if((int) $spotlight > -1) {
+        if((int) $spotlight > 0) {
             $and_spotlight = "AND     c_spotlight = '" . (int) DB::EscapeString($spotlight) . "'";
         } else {
             $and_spotlight = "";
