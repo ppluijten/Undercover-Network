@@ -13,7 +13,7 @@ if((int) $object_id > 0) {
     //TODO: Company info toevoegen
     switch($object_type) {
         case 'game':
-            $game_title = $object['title'];
+            $game_name = $object['name'];
             $game_platforms = Content::GetPlatformTags(explode('|', $object['platforms']));
             $game_image = Content::GetImage($object['image']);
             $game_genre = Content::GetGenre($object['genre']);
@@ -26,7 +26,7 @@ if((int) $object_id > 0) {
             $game_release = date('d-m-Y', $object['release']);
             $game_rating = Content::GetGameRating($object_id);
             $game_rating_image = Content::GetRatingImage($game_rating);
-            $prevars['templates']['game_title'] = $game_title;
+            $prevars['templates']['game_name'] = $game_name;
             $prevars['templates']['game_platforms'] = $game_platforms;
             $prevars['templates']['game_image'] = $game_image;
             $prevars['templates']['game_genre'] = $game_genre;

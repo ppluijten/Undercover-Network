@@ -137,7 +137,6 @@ class Content {
             ".$limit;*/
 
         while($item = DB::GetArray($sqlitem)) {
-
                 $getComments = "
                     SELECT 	*
                     FROM 	ug_comments
@@ -542,12 +541,12 @@ class Content {
         return array(
             'id' => (int) $id,
             'type' => (string) 'game',
+            'name' => (string) stripslashes(trim($game['g_title'])),
+            'description' => (string) stripslashes(trim($game['g_description'])),
             'developer' => (int) $game['g_dev_id'],
             'publisher' => (int) $game['g_pub_id'],
             'platforms' => (string) trim($game['g_platforms']),
             'genre' => (int) $game['g_genre'],
-            'title' => (string) stripslashes(trim($game['g_title'])),
-            'description' => (string) stripslashes(trim($game['g_description'])),
             'website' => (string) stripslashes(trim($game['g_website'])),
             'multiplayer' => (int) $game['g_multiplayer'],
             'image' => (int) $game['g_image'],
