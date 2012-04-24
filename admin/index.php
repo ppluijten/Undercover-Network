@@ -21,6 +21,7 @@ foreach($adminArray as $contentItem) {
         case 2:
             // Article
             $contenttype = "Artikel";
+            break;
         case 3:
             // Preview
             $contenttype = "Impressie";
