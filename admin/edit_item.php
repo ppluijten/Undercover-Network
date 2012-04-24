@@ -31,7 +31,7 @@ if($contentItem) {
     $games_html = "";
     $games = Content::GetGames();
     foreach($games as $gameid => $gamename) {
-        $games_html .= "<option id='option_$gameid' value='$gameid'" . ($gameid == $objectid ? " checked='1'" : "") . ">$gamename</option>";
+        $games_html .= "<option id='option_$gameid' value='$gameid'" . ($gameid == $objectid ? " SELECTED" : "") . ">$gamename</option>";
     }
 
     $template->SetVariable("games", $games_html);
@@ -39,7 +39,7 @@ if($contentItem) {
     $companies_html = "";
     $companies = Content::GetCompanies();
     foreach($companies as $companyid => $companyname) {
-        $companies_html .= "<option id='option_$companyid' value='$companyid'" . ($companyid == $objectid ? " checked='1'" : "") . ">$companyname</option>";
+        $companies_html .= "<option id='option_$companyid' value='$companyid'" . ($companyid == $objectid ? " SELECTED" : "") . ">$companyname</option>";
     }
 
     $template->SetVariable("companies", $companies_html);

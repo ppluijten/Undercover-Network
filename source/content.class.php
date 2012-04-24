@@ -501,7 +501,13 @@ class Content {
     public static function GetGames() {
         $games = array();
 
-        $getGames = "SELECT g_id, g_title FROM ug_games";
+        if(Settings::SettingExists('content_games_sort')) {
+            $sort = "ORDER BY " . Settings::GetSetting('content_games_sort');
+        } else {
+            $sort = "";
+        }
+
+        $getGames = "SELECT g_id, g_title FROM ug_games $sort";
         $sqlGames = DB::GetQuery($getGames);
         while($game = DB::GetArray($sqlGames)) {
             $games[(int) $game['g_id']] = (string) $game['g_title'];
@@ -513,7 +519,13 @@ class Content {
     public static function GetCompanies() {
         $companies = array();
 
-        $getCompanies = "SELECT c_id, c_name FROM ug_companies";
+        if(Settings::SettingExists('content_companies_sort')) {
+            $sort = "ORDER BY " . Settings::GetSetting('content_companies_sort');
+        } else {
+            $sort = "";
+        }
+
+        $getCompanies = "SELECT c_id, c_name FROM ug_companies $sort";
         $sqlCompanies = DB::GetQuery($getCompanies);
         while($company = DB::GetArray($sqlCompanies)) {
             $companies[(int) $company['c_id']] = (string) $company['c_name'];
