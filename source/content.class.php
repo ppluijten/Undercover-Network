@@ -311,6 +311,54 @@ class Content {
         return $insertid;
     }
 
+    public static function CreateGame() {
+        // Get the content data
+        $createGame = "INSERT INTO ug_games (
+                g_dev_id, g_pub_id, g_platforms, g_genre, g_title, g_description, g_website, g_multiplayer, g_image, g_added_by, g_release
+            ) VALUES (
+                0, 0, '', 0, '', '', '', 0, 0, 0, 0
+            )";
+        $sqlGame = DB::GetQuery($createGame);
+        if(!$sqlGame) { return FALSE; }
+        $insertid = (int) DB::GetInsertId();
+
+        return $insertid;
+    }
+
+    public static function EditGame($id, $data) {
+        $id = (int) $id;
+        $developer = (int) $data['developer'];
+        $publisher = (int) $data['publisher'];
+        $platforms = (string) $data['platforms'];
+        $genre = (int) $data['genre'];
+        $title = (string) $data['title'];
+        $description = (string) $data['description'];
+        $website = (string) $data['website'];
+        $multiplayer = (int) $data['multiplayer'];
+        $image = (int) $data['image'];
+        $release = (string) date('Y-m-d', $data['release']);
+
+        // Get the content data
+        $editGame = "
+            UPDATE  ug_games
+            SET     g_dev_id = '" . (int) DB::EscapeString($developer) . "',
+                    g_pub_id = '" . (int) DB::EscapeString($publisher) . "',
+                    g_platforms = '" . (string) DB::EscapeString($platforms) . "',
+                    g_genre = '" . (int) DB::EscapeString($genre) . "',
+                    g_title = '" . (string) DB::EscapeString($title) . "',
+                    g_description = '" . (string) DB::EscapeString($description) . "',
+                    g_website = '" . (string) DB::EscapeString($website) . "',
+                    g_multiplayer = '" . (int) DB::EscapeString($multiplayer) . "',
+                    g_image = '" . (int) DB::EscapeString($image) . "',
+                    g_release = '" . (string) DB::EscapeString($release) . "'
+            WHERE   g_id = '" . (int) DB::EscapeString($id) . "'
+            LIMIT   1";
+        $sqlGame = DB::GetQuery($editGame);
+        if(!$sqlGame) { return FALSE; }
+
+        return TRUE;
+    }
+
     /*function GetItemType($id) {
         $getItemType = "
             SELECT  c_type
@@ -395,6 +443,22 @@ class Content {
         //$bericht = eregi_replace("(\[\*\])([A-Za-z0-9]*)(<br />)", "<li>\\2</li>", $bericht);
 
         return $bericht;
+    }
+
+    public static function GetPlatforms() {
+        if(Settings::SettingExists("platforms_sort")) {
+            $order = "ORDER BY " . (string) Settings::GetSetting("platforms_sort");
+        } else {
+            $order = "";
+        }
+
+        $getPlatforms = "SELECT p_id, p_name FROM ug_platforms $order";
+        $sqlPlatforms = DB::GetQuery($getPlatforms);
+        $platforms = array();
+        while($platform = DB::GetArray($sqlPlatforms)) {
+            $platforms[(int) $platform['p_id']] = (string) $platform['p_name'];
+        }
+        return $platforms;
     }
 
     public static function GetPlatformTags($platforms) {
@@ -515,6 +579,42 @@ class Content {
         return $games;
     }
 
+    public static function GetPublishers() {
+        $companies = array();
+
+        if(Settings::SettingExists('content_companies_sort')) {
+            $sort = "ORDER BY " . Settings::GetSetting('content_companies_sort');
+        } else {
+            $sort = "";
+        }
+
+        $getCompanies = "SELECT c_id, c_name FROM ug_companies WHERE c_type = '" . _COMPANY_TYPE_PUBLISHER_ . "' $sort";
+        $sqlCompanies = DB::GetQuery($getCompanies);
+        while($company = DB::GetArray($sqlCompanies)) {
+            $companies[(int) $company['c_id']] = (string) $company['c_name'];
+        }
+
+        return $companies;
+    }
+
+    public static function GetDevelopers() {
+        $companies = array();
+
+        if(Settings::SettingExists('content_companies_sort')) {
+            $sort = "ORDER BY " . Settings::GetSetting('content_companies_sort');
+        } else {
+            $sort = "";
+        }
+
+        $getCompanies = "SELECT c_id, c_name FROM ug_companies WHERE c_type = '" . _COMPANY_TYPE_DEVELOPER_ . "' $sort";
+        $sqlCompanies = DB::GetQuery($getCompanies);
+        while($company = DB::GetArray($sqlCompanies)) {
+            $companies[(int) $company['c_id']] = (string) $company['c_name'];
+        }
+
+        return $companies;
+    }
+
     public static function GetCompanies() {
         $companies = array();
 
@@ -585,6 +685,22 @@ class Content {
         }
 
         return $imagefile;
+    }
+
+    public static function GetGenres() {
+        if(Settings::SettingExists("genres_sort")) {
+            $order = "ORDER BY " . (string) Settings::GetSetting("genres_sort");
+        } else {
+            $order = "";
+        }
+
+        $getGenres = "SELECT g_id, g_name FROM ug_genres $order";
+        $sqlGenres = DB::GetQuery($getGenres);
+        $genres = array();
+        while($genre = DB::GetArray($sqlGenres)) {
+            $genres[(int) $genre['g_id']] = (string) $genre['g_name'];
+        }
+        return $genres;
     }
 
     public static function GetGenre($id) {

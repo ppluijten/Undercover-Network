@@ -1,0 +1,29 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+<script src="{folder}script/autocomplete_companies.php" type="text/javascript"></script>
+<link href="http://code.jquery.com/ui/1.8.19/themes/base/jquery-ui.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="{folder}script/edit_item.js"></script>
+<div id="editdiv" style="width: 936px; padding: 10px; background: url('{folder}images/item_background.png'); border: 2px solid #333; float: left; margin-bottom: 10px;">
+    <form action="" method="post">
+        <table>
+            <tr><td style="width: 130px;"><b>Title</b>:</td><td><input type="text" name="title" id="title" size="30" /></td></tr>
+            <tr><td><b>Genre</b>:</td><td><select id="genre" name="genre">
+                {genres}
+            </select></td></tr>
+            <tr><td><b>Description</b>:</td><td><input type="text" name="description" id="description" size="30" /></td></tr>
+            <tr><td><b>Website</b>:</td><td><input type="text" name="website" id="website" size="30" /></td></tr>
+            <tr><td><b>Developer</b>:</td><td><input type="text" name="developer" id="developer" size="20" /></td></tr>
+            <tr><td><b>Publisher</b>:</td><td><input type="text" name="publisher" id="publisher" size="20" /></td></tr>
+
+            <tr><td><b>Platforms</b>:</td>{platforms}
+
+            <tr><td><b>Multiplayer</b>:</td><td><input type="text" onkeypress="return onlyAcceptNumbers(event);" name="multiplayer" id="multiplayer" size="10" /> players</td></tr>
+            <tr><td><b>Release date</b>:</td><td><input type="text" onkeypress="return onlyAcceptDates(event);" name="release" id="release" size="10" /></td></tr>
+
+            <tr><td><b>Image</b>:</td><td>Image Selection*</td></tr>
+
+            <tr><td colspan="2"><input style="float: left;" type="button" value="Create" onclick="set_result_loading(); xajax_creategame(document.getElementById('developer').value, document.getElementById('publisher').value, '', document.getElementById('genre').value, document.getElementById('title').value, document.getElementById('description').value, document.getElementById('website').value, document.getElementById('multiplayer').value, 0, document.getElementById('release').value); return false;" />
+                <div id="resultdiv" style="float: left; margin-left: 10px; margin-top: 2px;"></div></td></tr>
+        </table>
+    </form>
+</div>

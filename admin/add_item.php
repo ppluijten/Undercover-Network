@@ -10,7 +10,7 @@ $template->SetVariable("body_onload", "set_type(0); set_sl_type(0);");
 $games_html = "";
 $games = Content::GetGames();
 foreach($games as $gameid => $gamename) {
-    $games_html .= "<option id='option_$gameid' value='$gameid'" . ($gameid == $objectid ? " checked='1'" : "") . ">$gamename</option>";
+    $games_html .= "<option id='option_$gameid' value='$gameid'>$gamename</option>";
 }
 
 $template->SetVariable("games", $games_html);
@@ -18,7 +18,7 @@ $template->SetVariable("games", $games_html);
 $companies_html = "";
 $companies = Content::GetCompanies();
 foreach($companies as $companyid => $companyname) {
-    $companies_html .= "<option id='option_$companyid' value='$companyid'" . ($companyid == $objectid ? " checked='1'" : "") . ">$companyname</option>";
+    $companies_html .= "<option id='option_$companyid' value='$companyid'>$companyname</option>";
 }
 
 $template->SetVariable("companies", $companies_html);

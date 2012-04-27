@@ -10,12 +10,12 @@
             </select></td></tr>
             <tr><td style="width: 85px;"><b>Title</b>:</td><td><input type="text" name="title" id="title" size="30" /></td></tr>
             <tr><td><b>Description</b>:</td><td><input type="text" name="description" id="description" size="30" /></td></tr>
-            <tr><td colspan="2"><textarea rows="40" cols="60" name="text" id="text">{text_orig}</textarea></td></tr>
+            <tr><td colspan="2"><textarea rows="40" cols="60" name="text" id="text"></textarea></td></tr>
 
             <tr id="tr_conclusion" style="display: none;"><td><b>Conclusion</b>:</td><td><input type="text" name="conclusion" id="conclusion" size="30" /></td></tr>
             <tr id="tr_rating" style="display: none;"><td><b>Rating</b>:</td><td><input type="text" name="rating" id="rating" size="3" /></td></tr>
 
-            <tr><td><b>Active</b>:</td><td><input type="checkbox" name="active" id="active" value="1" checked="{active}" /></td></tr>
+            <tr><td><b>Active</b>:</td><td><input type="checkbox" name="active" id="active" value="1" checked="1" /></td></tr>
 
             <tr><td><b>Spotlight</b>:</td><td><input type="hidden" name="spotlighttypeid" id="spotlighttypeid" value="0" /><input type="radio" name="spotlighttype" value="0" onclick="set_sl_type(0);" checked="true" /> Normaal <input type="radio" name="spotlighttype" value="1" onclick="set_sl_type(1);" /> Spotlight <input type="radio" name="spotlighttype" value="2" onclick="set_sl_type(2);" /> Covered</td></tr>
 
@@ -35,4 +35,3 @@
         </table>
     </form>
 </div>
-<div id="previewdiv" style="width: 936px; padding: 10px; background: url('../images/item_background.png'); border: 2px solid #333; float: left;"></div>

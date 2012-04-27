@@ -50,3 +50,23 @@ function set_content_type(id)
         document.getElementById('tr_rating').style.display = 'none';
     }
 }
+
+function onlyAcceptNumbers(evt)
+{
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+
+    return true;
+}
+
+function onlyAcceptDates(evt)
+{
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if(charCode == 45 || charCode == 47)
+        return true;
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+
+    return true;
+}

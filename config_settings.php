@@ -8,7 +8,8 @@ $settings_array = array(
     "content_other_sort" => "c_date DESC",
     "vbulletin_db_prefix" => "VB",
     "content_games_sort" => "g_title ASC",
-    "content_companies_sort" => "c_name ASC"
+    "content_companies_sort" => "c_name ASC",
+    "genres_sort" => "g_name ASC"
 );
 
 Settings::SetSettings($settings_array);

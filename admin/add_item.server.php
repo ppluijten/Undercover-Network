@@ -57,7 +57,6 @@ require("add_item.common.php");
 //TODO: Remove optional
 function createitem($type, $title, $description, $text, $conclusion, $rating, $active, $objecttype, $spotlighttype, $games, $companies, $subtype = 0, $platforms = "", $date_online = "2011-11-27 17:28:00", $event = 0)
 {
-    global $content;
     switch((int) $objecttype) {
         case 1:
             $object = (int) $games;
@@ -95,6 +94,35 @@ function createitem($type, $title, $description, $text, $conclusion, $rating, $a
         $objResponse->script("window.location = '../content.php?id=" . $id . "';");
     } else {
         $objResponse->assign("resultdiv", "innerHTML", "The item '$title' could not be created.");
+    }
+    return $objResponse;
+}
+
+function creategame($developer, $publisher, $platforms, $genre, $title, $description, $website, $multiplayer, $image, $release)
+{
+    /* TODO: platforms, image, added_by */
+    $data = array(
+        'developer' => (int) $developer,
+        'publisher' => (int) $publisher,
+        'platforms' => (string) $platforms,
+        'genre' => (int) $genre,
+        'title' => (string) $title,
+        'description' => (string) $description,
+        'website' => (string) $website,
+        'multiplayer' => (int) $multiplayer,
+        'image' => (int) $image,
+        'release' => (int) strtotime($release)
+    );
+    $create = Content::CreateGame($type);
+    if($create) { $id = (int) $create; $result = Content::EditGame($id, $data); } else { $id = 0; $result = FALSE; }
+
+    $objResponse = new xajaxResponse();
+    if($result === TRUE) {
+        $objResponse->assign("resultdiv", "innerHTML", "The game '$title' has been succesfuly created.");
+        $objResponse->alert("The game '$title' has been succesfuly created.");
+        $objResponse->script("window.location = '../index.php';");
+    } else {
+        $objResponse->assign("resultdiv", "innerHTML", "The game '$title' could not be created.");
     }
     return $objResponse;
 }
