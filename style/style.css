@@ -222,7 +222,7 @@ img {
 		}
 		
 		.middle .gameinfo_title {
-			float: right; 
+			float: left;
 			font-size: 16px; 
 			font-weight: bold;
 			width: 150px;
@@ -242,6 +242,18 @@ img {
 			float: right; 
 			width: 110px;
 			margin-top: -60px;
+		}
+                
+                .middle .companyinfo_title {
+			float: left;
+			font-size: 16px;
+			font-weight: bold;
+			width: 290px;
+		}
+
+		.middle .companyinfo_type {
+			float: left;
+			width: 290px;
 		}
 
 #content_left {

@@ -10,7 +10,6 @@ $object = Content::GetObject($contentItem['objecttype'], $contentItem['object'])
 $object_id = $object['id'];
 $object_type = $object['type'];
 if((int) $object_id > 0) {
-    //TODO: Company info toevoegen
     switch($object_type) {
         case 'game':
             $game_name = $object['name'];
@@ -39,6 +38,22 @@ if((int) $object_id > 0) {
             require_once "gameinfo.php";
             break;
         case 'company':
+            $company_name = (string) $object['name'];
+            $company_type = (int) $object['companytype'];
+            $prevars['templates']['company_name'] = $company_name;
+            switch($company_type) {
+                case _COMPANY_TYPE_PUBLISHER_:
+                    $company_type = "Publisher";
+                    break;
+                case _COMPANY_TYPE_DEVELOPER_:
+                    $company_type = "Developer";
+                    break;
+                default:
+                    $company_type = "";
+                    break;
+            }
+            $prevars['templates']['company_type'] = $company_type;
+            require_once "companyinfo.php";
             break;
     }
 }

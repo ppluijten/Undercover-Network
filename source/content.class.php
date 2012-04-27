@@ -562,6 +562,7 @@ class Content {
         return array(
             'id' => (int) $id,
             'type' => (string) 'company',
+            'companytype' => (int) $company['c_type'],
             'name' => (string) stripslashes(trim($company['c_name'])),
             'description' => (string) stripslashes(trim($company['c_description']))
         );

@@ -27,13 +27,16 @@ require "source/settings.class.php";
 // Settings configuration data
 require "config_settings.php";
 
+// Defines
+require "define.php";
+
 // User modification and usage class
 require "source/user.class.php";
 User::checkUser();
 //$user = new User();
 
 // Block admin to anyone other than the allowed users
-if((!in_array((int) User::getUserId(), array(576, 589))) && (strpos($_SERVER['PHP_SELF'], "admin") !== FALSE)) {
+if((!in_array((int) User::getUserId(), array(576, 15))) && (strpos($_SERVER['PHP_SELF'], "admin") !== FALSE)) {
     if($_SERVER['SERVER_NAME'] != 'localhost') { //DEBUG
         exit("You do not have access to this page.");
     } //DEBUG
